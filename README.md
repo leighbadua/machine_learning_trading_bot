@@ -48,44 +48,73 @@ To exit JupyterLab:
 
 ### Import other required libraries and dependencies: 
 
-![image](https://user-images.githubusercontent.com/96001018/162644438-bad497a8-ebde-4cb2-92e4-1a4375261a42.png)
+![image](https://user-images.githubusercontent.com/96001018/162666608-c4b0daf7-46ae-416e-a95b-387dda184676.png)
 
 ### Establish a Baseline Performance 
 Generate trading signals using short- (4) and long-window (100) SMA values:
-![image](https://user-images.githubusercontent.com/96001018/162645394-28fdfaec-be4e-47e9-9fc4-fe3c24cf25d5.png)
+![image](https://user-images.githubusercontent.com/96001018/162666708-3779dccc-0b13-4d35-b0cc-0d4e7ef74030.png)
 
 Initialize a new Signal column for actual returns. Indicates to buy stock long = 1, sell stock short = -1.
-![image](https://user-images.githubusercontent.com/96001018/162645485-ce043fd5-4ca3-420b-a806-35c7d2bba20c.png)
+![image](https://user-images.githubusercontent.com/96001018/162666786-9bf76c1c-58b1-4ea0-8855-790bd7d1aa12.png)
 
 Calculate strategy returns and added data to new column in DataFrame:
-![image](https://user-images.githubusercontent.com/96001018/162645566-fe12da16-d9a7-4181-9bb2-a22b6ec27227.png)
+![image](https://user-images.githubusercontent.com/96001018/162666891-cabc04c2-3e58-4315-9683-25b6f085aa30.png)
+
 
 Train and test dataset. Select ending period from the training data with an offset of 3 months:
-![image](https://user-images.githubusercontent.com/96001018/162645700-832345d3-59ff-4f3c-b6b4-d8fcda336864.png)
+![image](https://user-images.githubusercontent.com/96001018/162666998-67f7416f-5b2e-482b-a871-adc50359b93b.png)
 
 Classification Report associated with the SVC model predictions. 
-![image](https://user-images.githubusercontent.com/96001018/162645605-f077b96a-1b3c-4c21-b1ad-26e55b7add79.png)
+![image](https://user-images.githubusercontent.com/96001018/162667038-047f80bf-c34c-4955-8bb7-d547e54c2bfd.png)
 
 
 ### Tune the Baseline Trading Algorithm
-Step 1: Tune the training algorithm by adjusting the size of the training dataset
+### Step 1: Tune the training algorithm by adjusting the size of the training dataset. We set various DateOffset values to adjust the size of the training dataset.**  
 **What impact resulted from increasing or decreasing the training window?**
+As we change the size of the training dataset, we observe that the actual return line and the strategy return line move closer together and eventually crosses over with a smaller training dataset window (with the 24 month DateOffset).  
 
-Step 2: Tune the trading algorithm by adjusting the SMA input features.
+![actual_vs_strategy_returns_6months](https://user-images.githubusercontent.com/96001018/162657921-06131c80-f137-416d-9a28-9e2ffb65d301.png)
+![actual_vs_strategy_returns_18months](https://user-images.githubusercontent.com/96001018/162657975-887ca83a-4ab1-4674-8468-ff5a31baec3f.png)
+![actual_vs_strategy_returns_24months](https://user-images.githubusercontent.com/96001018/162658052-2efafbd1-5982-408d-8f40-778e4ed08150.png)
+
+
+### Step 2: Tune the trading algorithm by adjusting the SMA input features.
+
 **What impact resulted from increasing or decreasing either or both of the SMA windows?**
+The actual returns were highest with SMA30 and SMA200 windows, giving 1.6 times return.  
+Whereas, the SMA4 and SMA200, had the highest strategy returns of 1.8 and the actual return was around 1.6. Increasing the short-window (SMA4 to SMA30) shows the actual return is higher. Versus increasing the long-window from baseline (SMA100 to SMA200) shows to return a higher strategy return and not necessarily a higher actual return. 
+
+**Short window=30, Long window=200:**
+In 2021, actual return show about 1.6 times vs strategy return shows about 0.8. 
+![actual_vs_strategy_returns_3months_increased_windows](https://user-images.githubusercontent.com/96001018/162663310-da74e88a-9213-4fa4-938b-0c2159570d2f.png)
+
+**Short window=30, Long window=100:**
+In 2021, actual and strategy returns are about 1.4 and 0.7, respectively.  
+![actual_vs_strategy_returns_3months_short30long100](https://user-images.githubusercontent.com/96001018/162663360-fa8f8cd8-2886-4085-bf25-2a89202f993f.png)
+
+**Short window=4, Long window=200:**
+In 2021, strategy returns 1.8 times while the actual resulted around 1.6 times return. 
+![actual_vs_strategy_returns_3months_short4long200](https://user-images.githubusercontent.com/96001018/162663377-85cd9287-948d-4a5d-a40e-1905b9cca9f6.png)
 
 
 ### Evaluate a New Machine Learning Classifier (Using Logistic Regression)
+The image shows that the strategy returns about 1.5 times and the actual returns about 1.4. Those who are risk loving would could consider this with the greater potential for profit but also for great loss. 
+![lr_actual_vs_strategy](https://user-images.githubusercontent.com/96001018/162663953-0a72805b-1cd6-423d-8861-395d76236920.jpg)
+
 
 ### Evaluation Report
 SVC Actual vs. Strategy Returns baseline features (Short Window=4, Long Window=100, DateOffset 3 months)
 ![actual_vs_strategy_returns](https://user-images.githubusercontent.com/96001018/162646575-2f685515-2f0e-477f-ad0a-90cf2ee34049.png)
+![image](https://user-images.githubusercontent.com/96001018/162666197-c6414978-60fa-4a46-bfad-2dc5e3c764b5.png)
+
 
 Logistic Regression 
 ![lr_actual_vs_strategy](https://user-images.githubusercontent.com/96001018/162647625-d6146c5b-c9ea-4034-8662-26e12e91551f.jpg)
+![image](https://user-images.githubusercontent.com/96001018/162666242-16f9fdec-2330-4c71-ad84-2ffc66c94ce9.png)
+
 
 **Conclusion**
-
+In comparison between a SVC and a Logistic Regression model, the accuracy on the SVC model is higher than the Logistic Regression model. A low risk tolerance individual should select using the SVC. The SVC model returns approximately 1.4 in actual returns and 0.8 in strategy returns in 2021. 
 
 ## Contributors
 
