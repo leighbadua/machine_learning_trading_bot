@@ -68,12 +68,23 @@ Classification Report associated with the SVC model predictions.
 
 
 ### Tune the Baseline Trading Algorithm
+Step 1: Tune the training algorithm by adjusting the size of the training dataset
+**What impact resulted from increasing or decreasing the training window?**
+
+Step 2: Tune the trading algorithm by adjusting the SMA input features.
+**What impact resulted from increasing or decreasing either or both of the SMA windows?**
+
 
 ### Evaluate a New Machine Learning Classifier (Using Logistic Regression)
 
-### Create an Evaluation Report
+### Evaluation Report
+SVC Actual vs. Strategy Returns baseline features (Short Window=4, Long Window=100, DateOffset 3 months)
+![actual_vs_strategy_returns](https://user-images.githubusercontent.com/96001018/162646575-2f685515-2f0e-477f-ad0a-90cf2ee34049.png)
 
+Logistic Regression 
+![lr_actual_vs_strategy](https://user-images.githubusercontent.com/96001018/162647625-d6146c5b-c9ea-4034-8662-26e12e91551f.jpg)
 
+**Conclusion**
 
 
 ## Contributors
